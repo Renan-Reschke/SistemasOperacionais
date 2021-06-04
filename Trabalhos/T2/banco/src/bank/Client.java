@@ -15,20 +15,31 @@ public class Client extends Thread{
     }
 
     // Metodos
-    public void execute() {
-        Random operacao = new Random();
+    // Escolha aleatoria entre saque ou deposito
+    private void execute() throws InterruptedException {
+
         try {
+            Random random = new Random();
+            switch (random.nextInt(2)) {
+                case 0:
+                    account.deposit();
+                    break;
+                case 1:
+                    account.withdraw();
+                    break;
+            }
+        } catch (InterruptedException e){
+            e.printStackTrace();
+        }
+    }
+
+    // Metodo redefinido que executa a função da thread
+    @Override
+    public void run() {
+        try {
+            // Tenta realizar uma operacao de deposito ou retirada
             while(true){
-                Random random = new Random();
-                int op = random.nextInt(2);
-                switch (op){
-                    case 0:
-                        this.account.deposit();
-                        break;
-                    case 1:
-                        this.account.withdraw();
-                        break;
-                }
+                execute();
                 Thread.yield();
             }
         } catch (InterruptedException e){

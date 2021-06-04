@@ -1,19 +1,24 @@
 package bank;
-
+import sun.misc.Signal;
 public class Main {
-
     public static void main(String[] args) {
-        // Cria o buffer compartilhado
-        Account conta = new Account(1000);
-        // Cria as threads de produtor e consumidor
-        Client c1 = new Client("Tiberius", conta);
-        Client c2 = new Client("Augustus", conta);
-        Client c3 = new Client("Claudius", conta);
-        Client c4 = new Client("Lucius", conta);
-        // Inicializa as threads
-        c1.start();
-        c2.start();
-        c3.start();
-        c4.start();
+        Account account = new Account(1000);
+        Client customers[] = {
+                new Client("Augustus", account),
+                new Client("Lucius", account),
+                new Client("Claudius", account),
+                new Client("Tiberius", account)};
+        Signal.handle(new Signal("INT"), // CTRL+C
+                (Signal signal) -> {
+            System.out.println("Terminando a simulação...");
+            for (Client customer : customers) {
+                customer.interrupt();
+            }
+        });
+        for (Client customer : customers) {
+            customer.start();
+        }
     }
 }
+
+
