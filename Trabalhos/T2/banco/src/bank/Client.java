@@ -41,9 +41,10 @@ public class Client extends Thread{
             while(true){
                 execute();
                 Thread.yield();
+                sleep(20);
             }
         } catch (InterruptedException e){
-            e.printStackTrace();
+            System.out.println("Cliente " + Thread.currentThread().getName() + " encerrando...");
         }
     }
 }

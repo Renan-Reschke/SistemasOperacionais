@@ -8,7 +8,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class Account {
     // Atributos
     private int balance;
-    private final int valores[] = {10, 20, 50, 100};
+    private static final int valores[] = {10, 20, 50, 100};
 
     // Variável de lock para acessar a fila compartilhada
     private final Lock lock = new ReentrantLock();
